@@ -5,14 +5,17 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MainPageTest {
+public class SettingPageTest {
+
     public WebDriver driver;
+    ConfigFileReader configFileReader;
 
     @BeforeAll
     public void setup() {
@@ -22,17 +25,23 @@ class MainPageTest {
     }
 
     @Test
-    public void testSiteLoads() {
+    public void testLoading() {
         MainPage mainPage = new MainPage(this.driver);
-        assertTrue(mainPage.getBodyText().contains("Why Zeplin?"));
-        assertTrue(mainPage.getFooterText().contains("Zeplin API"));
+        LoginPage loginPage = mainPage.getLoginPage();
+        DashboardPage dashboardPage = loginPage.clickLogin();
+        SettingsPage settingsPage = dashboardPage.getSetingsPage();
+        assertTrue(settingsPage.getBodyText().contains("Projects"));
     }
 
     @Test
-    public void testPageTitle() {
+    public void fillAboutMeTest() {
         MainPage mainPage = new MainPage(this.driver);
-        String title = mainPage.getTitle();
-        assertTrue(title.contains("Deliver on the promise of design"));
+        LoginPage loginPage = mainPage.getLoginPage();
+        DashboardPage dashboardPage = loginPage.clickLogin();
+        SettingsPage settingsPage = dashboardPage.getSetingsPage();
+        settingsPage.fillWhatIdoTextArea("Software Testing", "User");
+        System.out.println(settingsPage.getUodateStatues());
+        assertTrue(settingsPage.getUodateStatues().contains("Updated"));
     }
 
     @AfterAll

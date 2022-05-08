@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 15);
@@ -28,5 +29,9 @@ class BasePage {
     public String getBodyText() {
         WebElement bodyElement = this.waitAndReturnElement(By.tagName("body"));
         return bodyElement.getText();
+    }
+
+    public String getTitle() {
+        return this.driver.getTitle();
     }
 }

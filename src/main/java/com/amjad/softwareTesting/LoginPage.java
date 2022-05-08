@@ -12,14 +12,18 @@ public class LoginPage extends BasePage {
 
     private By emailTextField = By.name("Handle");
     private By passwordTextField = By.name("Password");
-    private By submitButton = By.xpath("/html/body/div/div[2]/div[2]/form/button");//By.className("loginFormButton");
+    private By submitButton = By.xpath("//div[@class ='formWrapper']//Button[@type='submit']");//By.className("loginFormButton");
 
+    private String username, password;
+    ConfigFileReader configFileReader;
     public LoginPage(WebDriver driver) {
         super(driver);
+        configFileReader = new ConfigFileReader();
+        username = configFileReader.getUserName();
+        password = configFileReader.getPassword();
     }
 
-
-    public DashboardPage clickLogin(String username, String password) {
+    public DashboardPage clickLogin() {
         this.waitAndReturnElement(emailTextField).sendKeys(username);
         this.waitAndReturnElement(passwordTextField).sendKeys(password);
 
